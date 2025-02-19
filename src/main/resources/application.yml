@@ -1,4 +1,7 @@
 constants:
+  jackson:
+    date-format: yyyy-MM-dd
+    datetime-format: yyyy-MM-dd HH:mm:ss
   swagger:
     info:
       title: SpringJPA
