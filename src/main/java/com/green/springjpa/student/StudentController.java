@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Slf4j
@@ -23,6 +24,16 @@ public class StudentController {
 
     @GetMapping
     List<StudentRes> getList(@RequestParam int page, @RequestParam int size) {
+        return studentService.getList(PageRequest.of(page, size));
+    }
+
+    @GetMapping("test")
+    List<StudentRes> test2(@RequestParam LocalDateTime date) {
+        return studentService.getList(PageRequest.of(page, size));
+    }
+
+    @GetMapping("test")
+    List<StudentRes> test(@RequestParam ) {
         return studentService.getList(PageRequest.of(page, size));
     }
 }
