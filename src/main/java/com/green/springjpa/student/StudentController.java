@@ -1,15 +1,12 @@
 package com.green.springjpa.student;
 
+import com.green.springjpa.student.model.StudentReq;
 import com.green.springjpa.student.model.StudentRes;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
-
+import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -23,17 +20,21 @@ public class StudentController {
     private final StudentService studentService;
 
     @GetMapping
-    List<StudentRes> getList(@RequestParam int page, @RequestParam int size) {
-        return studentService.getList(PageRequest.of(page, size));
+    public Page<List<StudentRes>> getStudentList(@RequestParam(defaultValue = "0") int page
+                                               , @RequestParam(defaultValue = "20") int size) {
+        return studentService.getStudentList(PageRequest.of(page, size));
     }
 
     @GetMapping("test")
-    List<StudentRes> test2(@RequestParam LocalDateTime date) {
-        return studentService.getList(PageRequest.of(page, size));
+    public String test2(@RequestParam LocalDateTime createdAt) {
+        log.info("createdAt: {}", createdAt);
+        return "";
     }
 
-    @GetMapping("test")
-    List<StudentRes> test(@RequestParam ) {
-        return studentService.getList(PageRequest.of(page, size));
+    @PostMapping("test")
+    public String test(@RequestBody StudentReq req) {
+        log.info("req: {}", req);
+        return "";
     }
+
 }

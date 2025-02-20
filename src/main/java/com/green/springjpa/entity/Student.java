@@ -9,7 +9,7 @@ import lombok.*;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class Student  extends UpdatedAt {
+public class Student extends UpdatedAt {
 
     @Id @Tsid
     private Long studentId;
