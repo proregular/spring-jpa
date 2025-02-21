@@ -1,6 +1,8 @@
 package com.green.springjpa.entity;
 
+import com.green.springjpa.config.relationenum.AbstractEnumCodeConverter;
 import com.green.springjpa.config.relationenum.EnumMapperType;
+import jakarta.persistence.AttributeConverter;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
@@ -15,4 +17,12 @@ public enum SchoolTypeCode implements EnumMapperType {
 
     private final String code;
     private final String value;
+
+    public static class CodeConvert extends AbstractEnumCodeConverter<SchoolTypeCode> {
+        private static final String ENUM_NAME = "학교 타입";
+
+        public CodeConvert() {
+            super(SchoolTypeCode.class, false, ENUM_NAME);
+        }
+    }
 }
