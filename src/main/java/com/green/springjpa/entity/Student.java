@@ -17,6 +17,9 @@ public class Student extends UpdatedAt {
     @Column(nullable = false)
     private String name;
 
+    @Column(nullable = false)
+    private StudentGradeTypeCode gradeTypeCode;
+
     @ManyToOne
     @JoinColumn(name = "school_id")
     private School school;

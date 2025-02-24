@@ -6,18 +6,16 @@ import jakarta.persistence.Converter;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
-@Converter(autoApply = true)
 public abstract class AbstractEnumCodeConverter<E extends Enum<E> & EnumMapperType>
         implements AttributeConverter<E,String> {
     private final Class<E> targetEnumClass;
     private final boolean nullable; // null 가능
-    private final String enumName; // 문제가 생겼을 때 ENUM 때문인지 출력하기 위해 사용
 
     // DB에 값을 넣을 때 사용 (insert, update)
     @Override
     public String convertToDatabaseColumn(E enumItem) {
         if(!nullable && enumItem == null) { // null 허용을 하지 않았는데 attribute 값이 null 이라면
-            throw new IllegalArgumentException(String.format("%s(는)은 NULL 로 저장할 수 없습니다.", enumName));
+            throw new IllegalArgumentException(String.format("%s(는)은 NULL 로 저장할 수 없습니다.", targetEnumClass.getSimpleName()));
         }
         return EnumConvertUtils.toCode(enumItem);
     }
@@ -26,7 +24,8 @@ public abstract class AbstractEnumCodeConverter<E extends Enum<E> & EnumMapperTy
     @Override
     public E convertToEntityAttribute(String dbData) {
         if(!nullable && StringUtils.isBlank(dbData) || dbData == null) {
-            throw new IllegalArgumentException(String.format("%s(는)가 DB에 NULL 혹은 Empty로 저장되어 있습니다.", enumName));
+            throw new IllegalArgumentException(String.format("%s(는)가 DB에 NULL 혹은 Empty로 저장되어 있습니다."
+                    , targetEnumClass.getSimpleName()));
         }
 
         return EnumConvertUtils.ofCode(targetEnumClass, dbData);
